@@ -6,6 +6,12 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		3A385DF02CFDF29C00BA63FE /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = 3A385DEF2CFDF29C00BA63FE /* FirebaseAuth */; };
+		3A385DF22CFDF29C00BA63FE /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = 3A385DF12CFDF29C00BA63FE /* FirebaseFirestore */; };
+		3A385DF42CFDF29C00BA63FE /* FirebaseStorage in Frameworks */ = {isa = PBXBuildFile; productRef = 3A385DF32CFDF29C00BA63FE /* FirebaseStorage */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXContainerItemProxy section */
 		3A385DD02CFDEFCC00BA63FE /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -52,6 +58,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3A385DF02CFDF29C00BA63FE /* FirebaseAuth in Frameworks */,
+				3A385DF22CFDF29C00BA63FE /* FirebaseFirestore in Frameworks */,
+				3A385DF42CFDF29C00BA63FE /* FirebaseStorage in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -112,6 +121,9 @@
 			);
 			name = MyBuddyDemo;
 			packageProductDependencies = (
+				3A385DEF2CFDF29C00BA63FE /* FirebaseAuth */,
+				3A385DF12CFDF29C00BA63FE /* FirebaseFirestore */,
+				3A385DF32CFDF29C00BA63FE /* FirebaseStorage */,
 			);
 			productName = MyBuddyDemo;
 			productReference = 3A385DBF2CFDEFCB00BA63FE /* MyBuddyDemo.app */;
@@ -195,6 +207,9 @@
 			);
 			mainGroup = 3A385DB62CFDEFCB00BA63FE;
 			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+				3A385DEE2CFDF29C00BA63FE /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
+			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 3A385DC02CFDEFCB00BA63FE /* Products */;
 			projectDirPath = "";
@@ -403,6 +418,7 @@
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -431,6 +447,7 @@
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -552,6 +569,35 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		3A385DEE2CFDF29C00BA63FE /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/firebase/firebase-ios-sdk";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 11.5.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		3A385DEF2CFDF29C00BA63FE /* FirebaseAuth */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 3A385DEE2CFDF29C00BA63FE /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseAuth;
+		};
+		3A385DF12CFDF29C00BA63FE /* FirebaseFirestore */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 3A385DEE2CFDF29C00BA63FE /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseFirestore;
+		};
+		3A385DF32CFDF29C00BA63FE /* FirebaseStorage */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 3A385DEE2CFDF29C00BA63FE /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseStorage;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 3A385DB72CFDEFCB00BA63FE /* Project object */;
 }
