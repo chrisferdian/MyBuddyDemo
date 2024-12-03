@@ -2,10 +2,9 @@
 //  ContentView.swift
 //  MyBuddyDemo
 //
-//  Created by Indo Teknologi Utama on 02/12/24.
-//
 
 import SwiftUI
+import FirebaseFirestore
 
 struct ContentView: View {
     var body: some View {

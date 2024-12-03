@@ -2,8 +2,6 @@
 //  MyBuddyDemoApp.swift
 //  MyBuddyDemo
 //
-//  Created by Indo Teknologi Utama on 02/12/24.
-//
 
 import SwiftUI
 import FirebaseCore
@@ -11,7 +9,14 @@ import FirebaseCore
 class AppDelegate: NSObject, UIApplicationDelegate {
   func application(_ application: UIApplication,
                    didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey : Any]? = nil) -> Bool {
-    FirebaseApp.configure()
+      if let options = FirebaseOptions(contentsOfFile: AppEnvironment.googlePlist),
+         FirebaseApp.app() == nil {
+          print("Loading Firebase options from: \(AppEnvironment.googlePlist)")
+          FirebaseApp.configure(options: options)
+          FirebaseConfiguration.shared.setLoggerLevel(.max)
+      } else {
+          print("Failed to load Firebase options from: \(AppEnvironment.googlePlist)")
+      }
     return true
   }
 }
