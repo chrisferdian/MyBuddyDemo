@@ -20,15 +20,27 @@ class AppDelegate: NSObject, UIApplicationDelegate {
     return true
   }
 }
-
+struct Constant {
+    static let uid = "PLH8LLNSNGPAfVDe2Q2izcU1frl1"
+}
 @main
 struct MyBuddyDemoApp: App {
     
     @UIApplicationDelegateAdaptor(AppDelegate.self) var delegate
-    
+    @StateObject private var user: UserJSON = UserJSON(uid: nil)
+
     var body: some Scene {
         WindowGroup {
-            MainView()
+            ContentView()
+                .environmentObject(user)
         }
     }
+}
+
+struct ContentView: View {
+  @EnvironmentObject private var user: UserJSON
+  
+  var body: some View {
+      MainView(user: user)
+  }
 }

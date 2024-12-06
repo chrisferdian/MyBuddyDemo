@@ -3,17 +3,17 @@
 <plist version="1.0">
 <dict>
 	<key>API_KEY</key>
-	<string>AIzaSyD8FmPKLPjjGoayDDlqq3AZU-U6HBJr31Y</string>
+	<string>AIzaSyBh1ZS0aX6f4rVkL_hXQvpV7MTOV-IfqrQ</string>
 	<key>GCM_SENDER_ID</key>
-	<string>445029685359</string>
+	<string>908661803788</string>
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
 	<string>com.example.MyBuddyDemo.staging</string>
 	<key>PROJECT_ID</key>
-	<string>mybuddydemo-53ebd</string>
+	<string>ocean-hub-1e562</string>
 	<key>STORAGE_BUCKET</key>
-	<string>mybuddydemo-53ebd.firebasestorage.app</string>
+	<string>ocean-hub-1e562.appspot.com</string>
 	<key>IS_ADS_ENABLED</key>
 	<false></false>
 	<key>IS_ANALYTICS_ENABLED</key>
@@ -25,6 +25,6 @@
 	<key>IS_SIGNIN_ENABLED</key>
 	<true></true>
 	<key>GOOGLE_APP_ID</key>
-	<string>1:445029685359:ios:7cd05504dd4a6bc08c559a</string>
+	<string>1:908661803788:ios:66818f448e60eb7def9729</string>
 </dict>
 </plist>
