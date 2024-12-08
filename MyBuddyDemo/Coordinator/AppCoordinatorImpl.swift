@@ -46,8 +46,8 @@ class AppCoordinatorImpl: AppCoordinatorProtocol {
         switch screen {
         case .home(let user):
             MainView(user: user)
-        case .profile(let user):
-            EmptyView()
+        case .profile(let user, let appearance):
+            ProfileView(user: user, appearance: appearance)
         }
     }
     

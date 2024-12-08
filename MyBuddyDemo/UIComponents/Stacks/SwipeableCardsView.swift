@@ -34,7 +34,7 @@ struct SwipeableCardsView<SwipeableInfo: ISwipeableCardModel>: View {
                     .frame(width: geometry.size.width, height: geometry.size.height)
             } else {
                 ZStack {
-                    Color.white.ignoresSafeArea()
+                    Color("colorbg").ignoresSafeArea()
                     let reversedCards = Array(model.unswipedCards.reversed())
                     ForEach(reversedCards) { card in
                         let isTop = card == model.unswipedCards.first

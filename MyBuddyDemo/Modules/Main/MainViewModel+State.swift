@@ -18,7 +18,6 @@ extension MainViewModel {
 
     enum Action {
         case fetchUsers
-        case uploadImageProfile
     }
 
     enum ViewState {
@@ -40,7 +39,7 @@ struct UserInfo: Codable, ISwipeableCardModel {
     var rates: [Double]?
     var isOn: Bool = false
     
-    init(uid: String?, email: String? = nil, phoneNumber: String? = nil, gender: GenderEnum? = nil, profileImageURL: String? = nil, username: String? = nil, rates: [Double]? = nil) {
+    init(uid: String?, email: String? = nil, phoneNumber: String? = nil, gender: GenderEnum? = nil, profileImageURL: String? = nil, username: String? = nil, rates: [Double]? = nil, isOn: Bool) {
         self.uid = uid
         self.email = email
         self.phoneNumber = phoneNumber
@@ -48,6 +47,7 @@ struct UserInfo: Codable, ISwipeableCardModel {
         self.profileImageURL = profileImageURL
         self.username = username
         self.rates = rates
+        self.isOn = isOn
     }
     enum CodingKeys: String, CodingKey {
         case uid = "uid"
@@ -73,10 +73,52 @@ struct UserInfo: Codable, ISwipeableCardModel {
 }
 
 class CurrentUser: ObservableObject {
-    var user: UserInfo
+    @Published var isOnlineMode: Bool
+    private(set) var uid: String?
+    var email: String?
+    var phoneNumber: String?
+    var gender: GenderEnum?
+    var profileImageURL: String?
+    @Published var username: String = ""
+    var rates: [Double]?
     
     init(user: UserInfo) {
-        self.user = user
+        self.isOnlineMode = user.isOn
+        uid = user.uid
+        email = user.email
+        phoneNumber = user.phoneNumber
+        gender = user.gender
+        profileImageURL = user.profileImageURL
+        username = user.username ?? (user.gender == GenderEnum.male ? "Jon Doe" : "Jane Doe")
+        rates = user.rates
+    }
+    
+    func update(from user: UserInfo) {
+        self.isOnlineMode = user.isOn
+        uid = user.uid
+        email = user.email
+        phoneNumber = user.phoneNumber
+        gender = user.gender
+        profileImageURL = user.profileImageURL
+        username = user.username ?? (user.gender == GenderEnum.male ? "Jon Doe" : "Jane Doe")
+        rates = user.rates
+    }
+    
+    var toUserInfo: UserInfo {
+        UserInfo(
+            uid: uid,
+            email: email,
+            phoneNumber: phoneNumber,
+            gender: gender,
+            profileImageURL: profileImageURL,
+            username: username,
+            rates: rates,
+            isOn: isOnlineMode
+        )
+    }
+    var imageAsURL: URL? {
+        guard let _url = profileImageURL else { return nil}
+        return URL(string: _url)
     }
 }
 enum GenderEnum: Int, Codable {

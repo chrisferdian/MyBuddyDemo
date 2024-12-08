@@ -30,7 +30,7 @@ struct StackCardView<Content: View>: View {
     var body: some View {
         content
             .frame(width: size.width * (isTopCard ? 0.8 : 0.85), height: size.height * (isTopCard ? 0.8 : 0.85))
-            .background(Color.white)
+            .background(Color("colorbg"))
             .cornerRadius(15)
             .shadow(color: isTopCard ? getShadowColor() : (isSecondCard && dragOffset.width != 0 ? Color.gray.opacity(0.2) : Color.gray.opacity(0.2)), radius: 10, x: 0, y: 3)
             .padding(.bottom, 24)

@@ -25,7 +25,7 @@ enum Pages: Identifiable, Hashable {
     }
     
     case home(CurrentUser)
-    case profile(CurrentUser)
+    case profile(CurrentUser, AppearanceSettings)
     
     var id: Self { return self }
 }

@@ -27,20 +27,18 @@ struct Constant {
 struct MyBuddyDemoApp: App {
     
     @UIApplicationDelegateAdaptor(AppDelegate.self) var delegate
-    @StateObject private var user: CurrentUser = CurrentUser(user: .init(uid: Constant.uid))
 
     var body: some Scene {
         WindowGroup {
             CoordinatorView()
-                .environmentObject(user)
         }
     }
 }
 
 struct CoordinatorView: View {
     @StateObject var appCoordinator: AppCoordinatorImpl = AppCoordinatorImpl()
-    @EnvironmentObject
-    private var user: CurrentUser
+    @StateObject private var user: CurrentUser = CurrentUser(user: .init(uid: Constant.uid, isOn: false))
+    @StateObject private var appearanceSettings = AppearanceSettings()
 
     var body: some View {
         NavigationStack(path: $appCoordinator.path) {
@@ -48,11 +46,33 @@ struct CoordinatorView: View {
                 .navigationTitle(AppEnvironment.productName)
                 .navigationBarTitleDisplayMode(.inline)
                 .toolbar {
-                    ToolbarItem(placement: .navigationBarLeading) {
-                        Button(action: {
-                            appCoordinator.push(.profile(user))
-                        }) {
-                            Image(systemName: "person.crop.circle.fill")
+                    ToolbarItem(placement: .topBarLeading) {
+                        if user.uid != nil {
+                            Button(action: {
+                                appCoordinator.push(.profile(user, appearanceSettings))
+                            }) {
+                                AsyncImage(url: user.imageAsURL) { image in
+                                    image
+                                        .resizable()
+                                        .scaledToFit()
+                                        .frame(maxWidth: 40, maxHeight: 40)
+                                        .cornerRadius(10)
+                                        .clipShape(Circle())
+                                } placeholder: {
+                                    Image(systemName: "person.crop.circle.fill")
+                                        .cornerRadius(10)
+//                                        .overlay(
+//                                            RoundedRectangle(cornerRadius: 10)
+//                                                .stroke(Color.gray.opacity(0.3), lineWidth: 1)
+//                                        )
+                                }
+                            }
+                        }
+                    }
+                    ToolbarItem(placement: .topBarTrailing) {
+                        if user.uid != nil {
+                            Circle()
+                                .fill(user.isOnlineMode ? .green : .red)
                         }
                     }
                 }
@@ -67,5 +87,41 @@ struct CoordinatorView: View {
                 }
         }
         .environmentObject(appCoordinator)
+        .environmentObject(user)
+        .environmentObject(appearanceSettings)
+        .preferredColorScheme(resolveColorScheme(appearanceSettings.selectedAppearance))
+
+    }
+    
+    // Resolve the color scheme based on user selection
+    private func resolveColorScheme(_ appearance: AppearanceSettings.Appearance) -> ColorScheme? {
+        switch appearance {
+        case .light:
+            return .light
+        case .dark:
+            return .dark
+        case .system:
+            return nil
+        }
+    }
+}
+
+class AppearanceSettings: ObservableObject {
+    static let UD_KEY = "AppearanceSetting"
+    
+    @Published var selectedAppearance: Appearance = .system
+
+    init() {
+        // Load saved setting
+        self.selectedAppearance = loadAppearanceSetting()
+    }
+    enum Appearance: String, CaseIterable, Equatable {
+        case light = "Light"
+        case dark = "Dark"
+        case system = "System"
+    }
+    func loadAppearanceSetting() -> Appearance {
+        let rawValue = UserDefaults.standard.string(forKey: AppearanceSettings.UD_KEY) ?? Appearance.system.rawValue
+        return Appearance(rawValue: rawValue) ?? .system
     }
 }

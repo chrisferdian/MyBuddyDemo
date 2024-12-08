@@ -14,8 +14,10 @@ struct GamesView: View {
             ZStack(alignment: .center) {
                 LinearCircularGradientView()
                 Image("voice")
+                    .renderingMode(.template)
                     .resizable()
                     .scaledToFill()
+                    .foregroundColor(Color.colorbg)
                     .frame(width: 24, height: 24)
             }
             .frame(width: 40, height: 40)
@@ -42,7 +44,7 @@ struct GameCircleImage: View {
             .if(hasBorder) {
                 $0.overlay(
                     Circle()
-                        .stroke(Color.white, lineWidth: 3)
+                        .stroke(Color.colorbg, lineWidth: 3)
                 )
             }
     }
