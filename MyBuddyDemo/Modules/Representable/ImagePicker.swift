@@ -6,7 +6,6 @@
 import SwiftUI
 
 struct ImagePicker: UIViewControllerRepresentable {
-    @Binding var selectedImage: UIImage?
     var onImagePicked: (UIImage) -> Void
 
     func makeCoordinator() -> Coordinator {

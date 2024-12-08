@@ -4,5 +4,7 @@
 <dict>
 	<key>GOOGLE_PLIST</key>
 	<string>$(GOOGLE_PLIST)</string>
+	<key>PRODUCT_NAME</key>
+	<string>$(PRODUCT_NAME)</string>
 </dict>
 </plist>

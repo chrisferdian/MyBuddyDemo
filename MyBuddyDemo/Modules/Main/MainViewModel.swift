@@ -9,11 +9,11 @@ import FirebaseFirestore
 final class MainViewModel: ObservableObject {
     @Published var state: State
     
-    let userRepository = FirestoreRepositoryImpl<UserJSON>(collectionPath: "USERS")
+    let userRepository = FirestoreRepositoryImpl<UserInfo>(collectionPath: "USERS")
     let storageRepositoy = FirebaseStorageRepositoryImpl()
     
-    init(user: UserJSON) {
-        self.state = State(users: user)
+    init(user: CurrentUser) {
+        self.state = State(user: user)
     }
 
     func send(_ action: Action) {
@@ -27,11 +27,26 @@ final class MainViewModel: ObservableObject {
         }
     }
     
+    func fetchCurrentUser() {
+        userRepository.fetch(byID: Constant.uid) { result in
+            switch result {
+            case .success(let user):
+                self.state.user.user = user
+                self.state.viewState = .done
+            case .failure(let failure):
+                self.state.viewState = .error
+            }
+        }
+    }
+    
     func fetchUsers() {
         userRepository.fetchAll { result in
             switch result {
             case .success(let users):
-                self.state.users = users.first
+                self.state.cardModel = SwipeableCardsModel(cards: users)
+                if let _current = users.first(where: { $0.uid == Constant.uid }) {
+                    self.state.user = .init(user: _current)
+                }
             case .failure(let error):
                 print(error.localizedDescription)
             }
@@ -43,8 +58,8 @@ final class MainViewModel: ObservableObject {
         storageRepositoy.uploadImage(image) { result in
             switch result {
             case .success(let data):
-                self.state.users?.profileImageURL = data.absoluteString
-                self.userRepository.update(self.state.users!, withID: Constant.uid) { result in
+//                self.state.users = data.absoluteString
+                self.userRepository.update(self.state.user.user, withID: Constant.uid) { result in
                     switch result {
                     case .success:
                         print("success")

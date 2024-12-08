@@ -27,6 +27,7 @@ class FirestoreRepositoryImpl<Model: Codable>: FirestoreRepository {
                 let models: [Model] = try documents.map { try $0.data(as: Model.self) }
                 completion(.success(models))
             } catch {
+                print("[FirestoreRepositoryImpl] Error: \(error.localizedDescription)")
                 completion(.failure(error))
             }
         }

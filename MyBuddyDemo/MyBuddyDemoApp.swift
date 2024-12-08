@@ -27,20 +27,45 @@ struct Constant {
 struct MyBuddyDemoApp: App {
     
     @UIApplicationDelegateAdaptor(AppDelegate.self) var delegate
-    @StateObject private var user: UserJSON = UserJSON(uid: nil)
+    @StateObject private var user: CurrentUser = CurrentUser(user: .init(uid: Constant.uid))
 
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            CoordinatorView()
                 .environmentObject(user)
         }
     }
 }
 
-struct ContentView: View {
-  @EnvironmentObject private var user: UserJSON
-  
-  var body: some View {
-      MainView(user: user)
-  }
+struct CoordinatorView: View {
+    @StateObject var appCoordinator: AppCoordinatorImpl = AppCoordinatorImpl()
+    @EnvironmentObject
+    private var user: CurrentUser
+
+    var body: some View {
+        NavigationStack(path: $appCoordinator.path) {
+            appCoordinator.build(.home(user))
+                .navigationTitle(AppEnvironment.productName)
+                .navigationBarTitleDisplayMode(.inline)
+                .toolbar {
+                    ToolbarItem(placement: .navigationBarLeading) {
+                        Button(action: {
+                            appCoordinator.push(.profile(user))
+                        }) {
+                            Image(systemName: "person.crop.circle.fill")
+                        }
+                    }
+                }
+                .navigationDestination(for: Pages.self) { screen in
+                    appCoordinator.build(screen)
+                }
+                .sheet(item: $appCoordinator.sheet) { sheet in
+                    appCoordinator.build(sheet)
+                }
+                .fullScreenCover(item: $appCoordinator.fullScreenCover) { fullScreenCover in
+                    appCoordinator.build(fullScreenCover)
+                }
+        }
+        .environmentObject(appCoordinator)
+    }
 }
