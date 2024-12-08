@@ -19,6 +19,8 @@ final class MainViewModel: ObservableObject {
         switch action {
         case .fetchUsers:
             self.fetchUsers()
+        case .filter:
+            self.fetchUsersWithFilter()
         }
     }
     
@@ -35,16 +37,32 @@ final class MainViewModel: ObservableObject {
     }
     
     func fetchUsers() {
+        state.isFiltered = false
         userRepository.fetchAll { result in
             switch result {
             case .success(let users):
-                let filtered = users.filter({ $0.uid != Constant.uid })
-                self.state.cardModel = SwipeableCardsModel(cards: filtered)
+                self.state.cardModel = SwipeableCardsModel(cards: users)
                 if let _current = users.first(where: { $0.uid == Constant.uid }) {
                     self.state.user.update(from: _current)
                 }
                 self.state.viewState = .done
-            case .failure(let error):
+            case .failure(_):
+                self.state.viewState = .error
+            }
+        }
+    }
+    
+    func fetchUsersWithFilter() {
+        state.isFiltered = true
+        userRepository.fetchFilteredUsers { result in
+            switch result {
+            case .success(let users):
+                self.state.cardModel = SwipeableCardsModel(cards: users)
+                if let _current = users.first(where: { $0.uid == Constant.uid }) {
+                    self.state.user.update(from: _current)
+                }
+                self.state.viewState = .done
+            case .failure(_):
                 self.state.viewState = .error
             }
         }

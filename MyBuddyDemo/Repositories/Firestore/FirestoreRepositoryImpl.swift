@@ -90,4 +90,38 @@ class FirestoreRepositoryImpl<Model: Codable>: FirestoreRepository {
             }
         }
     }
+    
+    func fetchFilteredUsers(completion: @escaping (Result<[Model], Error>) -> Void) {
+        
+        // Build the query
+        let query = collection
+            .whereField("ge", isEqualTo: 0) // Filter for female users
+            .order(by: "la", descending: true) // Recently active
+            .order(by: "rating", descending: true) // Highest rating
+            .order(by: "sp", descending: false) // Lowest service pricing
+        
+        // Execute the query
+        query.getDocuments { snapshot, error in
+            if let error = error {
+                print("Error fetching users: \(error.localizedDescription)")
+                completion(.failure(error))
+                return
+            }
+            
+            guard let documents = snapshot?.documents else {
+                print("No users found.")
+                completion(.success([]))
+                return
+            }
+            
+            do {
+                // Map documents to UserJSON objects
+                let models: [Model] = try documents.map { try $0.data(as: Model.self) }
+                completion(.success(models))
+            } catch {
+                print("Error decoding user data: \(error.localizedDescription)")
+                completion(.failure(error))
+            }
+        }
+    }
 }

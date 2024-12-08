@@ -36,7 +36,7 @@ struct MainView: View {
                 .font(.title)
                 .padding(.bottom, 20)
             Button(action: {
-                viewModel.send(.fetchUsers)
+                viewModel.send(viewModel.state.isFiltered ? .filter : .fetchUsers)
             }) {
                 Text("Reload")
                     .font(.headline)
@@ -64,6 +64,16 @@ struct MainView: View {
                     print(_model.swipedCards)
                     _model.reset()
                 }
+            HStack(alignment: .center, spacing: 16) {
+                Image(systemName: viewModel.state.isFiltered ? "xmark.circle.fill" : "info.bubble.fill")
+                    .resizable()
+                    .frame(width: 24, height: 24)
+
+                Button(viewModel.state.isFiltered ? "Back to standard!" : "Try Using our recommendation?") {
+                    viewModel.send(viewModel.state.isFiltered ? .fetchUsers : .filter)
+                }
+            }
+            .padding(.horizontal, 24)
         } else {
             Spacer()
         }
