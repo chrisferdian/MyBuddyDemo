@@ -1,6 +1,6 @@
 # **MyBuddyDemo**
 
-This repository contains the implementation of the eBuddy iOS technical test. The app demonstrates Firebase integration, SwiftUI components, and MVVM architecture.
+This repository contains the implementation of the testing. The app demonstrates Firebase integration, SwiftUI components, and MVVM architecture.
 
 ## **Features**
 1. **Firebase Integration**
